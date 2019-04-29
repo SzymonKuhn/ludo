@@ -1,12 +1,22 @@
-public class PlayerManager {
+public class Player {
     CartManager cartManager;
     Cart cart;
     Dices dices;
+    String name;
 
-    public PlayerManager(CartManager cartManager, Cart cart, Dices dices) {
+    public Player(String name, CartManager cartManager, Cart cart, Dices dices) {
         this.cartManager = cartManager;
         this.cart = cart;
         this.dices = dices;
+        this.name = name;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public boolean choseFigureToAddPointToCart(String input) {
@@ -16,8 +26,9 @@ public class PlayerManager {
         for (int i = 0; i < Figures.values().length; i++ ) {
             if (Figures.values()[i].getNumberOfFigure() == num) {
                 Figures figure = Figures.values()[i];
-                if (cartManager.checkAndAddResult(figure, cart));
-                return true;
+                if (cartManager.checkAndAddResult(figure, cart)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -60,7 +71,7 @@ public class PlayerManager {
     }
 
     private int getNumberOfFigureFromString(String num) throws WrongNumberException {
-        int number=0;
+        int number = 0;
         try {
             number = Integer.parseInt(num);
             if (number < 1 || number > 13) {

@@ -10,7 +10,6 @@ public class CartManager {
     }
 
     public boolean checkAndAddResult(Figures figure, Cart cart) {
-        Integer result = 0;
         if (checkResult(figure)) {
             switch (figure) {
                 case ONES: {
@@ -79,7 +78,7 @@ public class CartManager {
                 case FOUR_SAME: {
                     if (cart.getResultCart().get(figure) == null) {
                         cart.addResult(figure, dices.sumAll());
-                        break;
+                        return true;
                     } else {
                         figureOccupied();
                         return false;
@@ -293,6 +292,17 @@ public class CartManager {
 
     private void figureOccupied() {
         System.out.println("Wybrana figura już jest zajęta");
+    }
+
+    public int sumCart(Cart cart) {
+        int sum = 0;
+        for (int i = 0; i < Figures.values().length; i++) {
+            Figures figure = Figures.values()[i];
+            if (cart.getResultCart().get(figure) != null) {
+                sum = sum + cart.getResultCart().get(figure);
+            }
+        }
+        return sum;
     }
 
 }//class
