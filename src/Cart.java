@@ -4,14 +4,14 @@ import java.util.Map;
 public class Cart {
     private Map<Figures, Integer> resultCart;
 
-    public Cart() {
+    Cart() {
         resultCart = new HashMap<>();
         for (int i = 0; i < Figures.values().length; i ++) {
             resultCart.put(Figures.values()[i], null);
         }
     }
 
-    public Map<Figures, Integer> getResultCart() {
+    Map<Figures, Integer> getResultCart() {
         return resultCart;
     }
 
@@ -26,7 +26,7 @@ public class Cart {
         return out;
     }
 
-    public void addResult (Figures figure, Integer result) {
+    void addResult(Figures figure, Integer result) {
         resultCart.put(figure, result);
     }
 }

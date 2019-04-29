@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartManager {
+class CartManager {
 
-    Dices dices;
+    private Dices dices;
 
-    public CartManager(Dices dices) {
+    CartManager(Dices dices) {
         this.dices = dices;
     }
 
-    public boolean checkAndAddResult(Figures figure, Cart cart) {
+    boolean checkAndAddResult(Figures figure, Cart cart) {
         if (checkResult(figure)) {
             switch (figure) {
                 case ONES: {
@@ -137,7 +137,7 @@ public class CartManager {
         return false;
     }
 
-    public boolean dicesCanBeAddedToCart(Cart cart) {
+    boolean dicesCanBeAddedToCart(Cart cart) {
         //sprawdzenie czy układ kości może być wpisany do jakiejkolwiek rubryki tabeli wyników
         for (Figures figure : Figures.values()) {
             if (cart.getResultCart().get(figure) == null) {
@@ -161,48 +161,48 @@ public class CartManager {
 
         switch (figure) {
             case ONES: {
-                for (int i = 0; i < tempDiceList.size(); i++) {
-                    if (tempDiceList.get(i) == 1) {
+                for (Integer integer : tempDiceList) {
+                    if (integer == 1) {
                         return true;
                     }
                 }
                 break;
             }
             case TWOS: {
-                for (int i = 0; i < tempDiceList.size(); i++) {
-                    if (tempDiceList.get(i) == 2) {
+                for (Integer integer : tempDiceList) {
+                    if (integer == 2) {
                         return true;
                     }
                 }
                 break;
             }
             case THREES: {
-                for (int i = 0; i < tempDiceList.size(); i++) {
-                    if (tempDiceList.get(i) == 3) {
+                for (Integer integer : tempDiceList) {
+                    if (integer == 3) {
                         return true;
                     }
                 }
                 break;
             }
             case FOURS: {
-                for (int i = 0; i < tempDiceList.size(); i++) {
-                    if (tempDiceList.get(i) == 4) {
+                for (Integer integer : tempDiceList) {
+                    if (integer == 4) {
                         return true;
                     }
                 }
                 break;
             }
             case FIVES: {
-                for (int i = 0; i < tempDiceList.size(); i++) {
-                    if (tempDiceList.get(i) == 5) {
+                for (Integer integer : tempDiceList) {
+                    if (integer == 5) {
                         return true;
                     }
                 }
                 break;
             }
             case SIXES: {
-                for (int i = 0; i < tempDiceList.size(); i++) {
-                    if (tempDiceList.get(i) == 6) {
+                for (Integer integer : tempDiceList) {
+                    if (integer == 6) {
                         return true;
                     }
                 }
@@ -211,9 +211,9 @@ public class CartManager {
             case THREE_SAME: {
                 for (int i = 0; i < tempDiceList.size() - 2; i++) {
                     for (int j = i + 1; j < tempDiceList.size() - 1; j++) {
-                        if (tempDiceList.get(i) == tempDiceList.get(j)) {
+                        if (tempDiceList.get(i).equals(tempDiceList.get(j))) {
                             for (int k = j + 1; k < tempDiceList.size(); k++) {
-                                if (tempDiceList.get(i) == tempDiceList.get(k)) {
+                                if (tempDiceList.get(i).equals(tempDiceList.get(k))) {
                                     return true;
                                 }
                             }
@@ -225,11 +225,11 @@ public class CartManager {
             case FOUR_SAME: {
                 for (int i = 0; i < tempDiceList.size() - 3; i++) {
                     for (int j = i + 1; j < tempDiceList.size() - 2; j++) {
-                        if (tempDiceList.get(i) == tempDiceList.get(j)) {
+                        if (tempDiceList.get(i).equals(tempDiceList.get(j))) {
                             for (int k = j + 1; k < tempDiceList.size() - 1; k++) {
-                                if (tempDiceList.get(i) == tempDiceList.get(k)) {
+                                if (tempDiceList.get(i).equals(tempDiceList.get(k))) {
                                     for (int l = k + 1; l < tempDiceList.size(); l++) {
-                                        if (tempDiceList.get(i) == tempDiceList.get(l)) {
+                                        if (tempDiceList.get(i).equals(tempDiceList.get(l))) {
                                             return true;
                                         }
                                     }
@@ -241,7 +241,7 @@ public class CartManager {
                 break;
             }
             case FULL: {
-                if (tempDiceList.get(0) == tempDiceList.get(1) && tempDiceList.get(3) == tempDiceList.get(4) && ((tempDiceList.get(2) == tempDiceList.get(0)) || (tempDiceList.get(2) == tempDiceList.get(4)))) {
+                if (tempDiceList.get(0).equals(tempDiceList.get(1)) && tempDiceList.get(3).equals(tempDiceList.get(4)) && ((tempDiceList.get(2).equals(tempDiceList.get(0))) || (tempDiceList.get(2).equals(tempDiceList.get(4))))) {
                     return true;
                 }
                 break;
@@ -269,10 +269,10 @@ public class CartManager {
                 break;
             }
             case GENERAL: {
-                if ((tempDiceList.get(0) == tempDiceList.get(1)) &&
-                        (tempDiceList.get(1) == tempDiceList.get(2)) &&
-                        (tempDiceList.get(2) == tempDiceList.get(3)) &&
-                        (tempDiceList.get(3) == tempDiceList.get(4))) {
+                if ((tempDiceList.get(0).equals(tempDiceList.get(1))) &&
+                        (tempDiceList.get(1).equals(tempDiceList.get(2))) &&
+                        (tempDiceList.get(2).equals(tempDiceList.get(3))) &&
+                        (tempDiceList.get(3).equals(tempDiceList.get(4)))) {
                     return true;
                 }
                 break;
@@ -294,7 +294,7 @@ public class CartManager {
         System.out.println("Wybrana figura już jest zajęta");
     }
 
-    public int sumCart(Cart cart) {
+    int sumCart(Cart cart) {
         int sum = 0;
         for (int i = 0; i < Figures.values().length; i++) {
             Figures figure = Figures.values()[i];

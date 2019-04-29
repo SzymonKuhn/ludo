@@ -14,15 +14,11 @@ public enum Figures {
     CHANCE ("szansa", "dowolny układ", "suma wszystkich kości",13);
 
     private String myName;
-    private String description;
-    private String points;
     private int numberOfFigure;
 
 
     Figures(String myName, String description, String points, int numberOfFigure) {
         this.myName = myName;
-        this.description = description;
-        this.points = points;
         this.numberOfFigure = numberOfFigure;
     }
 

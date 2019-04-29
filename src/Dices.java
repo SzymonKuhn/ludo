@@ -1,28 +1,27 @@
 import java.util.ArrayList;
 import java.util.*;
 
-public class Dices {
+class Dices {
 
-    List<Dice> dices = new ArrayList<>();
+    private List<Dice> dices = new ArrayList<>();
 
-    public Dices() {
+    Dices() {
         for (int i = 0; i <= 4; i++) {
             dices.add(new Dice(1));
         }
     }
 
-    public List<Dice> getList() {
+    List<Dice> getList() {
         return dices;
     }
 
-
-    public void throwAll() {
-        for (int i = 0; i < dices.size(); i++) {
-            dices.get(i).throwDice();
+    void throwAll() {
+        for (Dice dice : dices) {
+            dice.throwDice();
         }
     }
 
-    public boolean throwOneDice(int num) {
+    private boolean throwOneDice(int num) {
         if (num < 1 || num > 5) {
             wrongNumber();
             return false;
@@ -31,7 +30,7 @@ public class Dices {
         return true;
     }
 
-    public boolean throwChosen(int... chosen) {
+    boolean throwChosen(int... chosen) {
         // sprawdzenie czy wybrano kostkę
         if (chosen.length <= 0) {
             noDices();
@@ -53,41 +52,41 @@ public class Dices {
             }
         }
         //rzucanie
-        for (int i = 0; i < chosen.length; i++) {
-            if (!throwOneDice(chosen[i])) {
+        for (int i1 : chosen) {
+            if (!throwOneDice(i1)) {
                 return false;
             }
         }
         return true;
     }
 
-    public Integer sumAll() {
-        Integer sum = 0;
-        for (int i = 0; i < dices.size(); i++) {
-            sum = sum + dices.get(i).getValue();
+    Integer sumAll() {
+        int sum = 0;
+        for (Dice dice : dices) {
+            sum = sum + dice.getValue();
         }
         return sum;
     }
 
-    public Integer sumNumber(Integer num) {
-        Integer result = 0;
-        for (int i = 0; i < dices.size(); i++) {
-            if (dices.get(i).getValue() == num) {
-                result = result + dices.get(i).getValue();
+    Integer sumNumber(Integer num) {
+        int result = 0;
+        for (Dice dice : dices) {
+            if (dice.getValue() == num) {
+                result = result + dice.getValue();
             }
         }
         return result;
     }
 
-    public void wrongNumber() {
+    private void wrongNumber() {
         System.out.println("Podano błędny numer kostki");
     }
 
-    public void tooManyDices() {
+    private void tooManyDices() {
         System.out.println("Zbyt duża ilość kostek");
     }
 
-    public void repetedDices() {
+    private void repetedDices() {
         System.out.println("Powtórzono numery kostek");
     }
 

@@ -1,25 +1,27 @@
-public class Player {
-    CartManager cartManager;
-    Cart cart;
-    Dices dices;
-    String name;
+class Player {
+    private CartManager cartManager;
+    private Cart cart;
+    private Dices dices;
+    private String name;
+    boolean virtualPlayer = false;
 
-    public Player(String name, CartManager cartManager, Cart cart, Dices dices) {
+    Player(String name, CartManager cartManager, Cart cart, Dices dices, boolean virtualPlayer) {
         this.cartManager = cartManager;
         this.cart = cart;
         this.dices = dices;
         this.name = name;
+        this.virtualPlayer = virtualPlayer;
     }
 
-    public Cart getCart() {
+    Cart getCart() {
         return cart;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public boolean choseFigureToAddPointToCart(String input) {
+    boolean choseFigureToAddPointToCart(String input) {
 
         int num = getNumberOfFigureFromString(input);
 
@@ -34,7 +36,7 @@ public class Player {
         return false;
     }
 
-    public boolean choseDiceAndThrow(String input) {
+    boolean choseDiceAndThrow(String input) {
         if (input.equals("")) {
             return true;
         }
@@ -48,13 +50,10 @@ public class Player {
                 return false;
             }
         }
-        if (dices.throwChosen(inputArray)) {
-            return true;
-        }
-        return false;
+        return dices.throwChosen(inputArray);
     }
 
-    public boolean addZeroToCart (String input) {
+    boolean addZeroToCart(String input) {
         int num = getNumberOfFigureFromString(input);
 
         for (int i = 0; i < Figures.values().length; i++ ) {

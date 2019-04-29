@@ -1,13 +1,10 @@
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    static Scanner scanner = new Scanner(System.in);
-    static String input;
+    private static Scanner scanner = new Scanner(System.in);
+    private static String input;
 
     public static void main(String[] args) {
 
@@ -15,36 +12,53 @@ public class Main {
         CartManager cartManager = new CartManager(dices);
         Cart player1cart = new Cart();
         Cart player2cart = new Cart();
-        Player player1 = new Player("Gracz 1", cartManager, player1cart, dices);
-        Player player2 = new Player("Gracz 2", cartManager, player2cart, dices);
+        Player player1 = new Player("Gracz 1", cartManager, player1cart, dices, false);
+        Player player2 = new Player("Gracz 2", cartManager, player2cart, dices, false);
         Player[] players = new Player[]{player1, player2};
 
         for (int i = 0; i < Figures.values().length; i++) { // pętla równa ilości figur
 //            for (int i = 0; i < 1; i++) { // tymczasowo tury
 
-                int round = i + 1;
-            int rounds = Figures.values().length + 1;
+            int round = i + 1;
+            int rounds = Figures.values().length;
             System.out.println("-------------------------------------------------------");
             System.out.println(">>>>>>> Tura " + round + " z " + rounds + " <<<<<<<<<<<<");
-            for (int j = 0; j < players.length; j++) { //pętla - po jednej turze na zawodnika
+
+            for (Player player : players) { //pętla - po jednej turze na zawodnika
                 System.out.println();
-                System.out.println(">>>>>>>>>>>>>>>> " + players[j].getName() + " <<<<<<<<<<<<<<");
+                System.out.println(">>>>>>>>>>>>>>>> " + player.getName() + " <<<<<<<<<<<<<<");
                 System.out.println();
                 System.out.println("Twoja karta wyników: ");
-                System.out.println(players[j].getCart().toString());
+                System.out.println(player.getCart().toString());
                 System.out.println("Naciśnij enter aby rzucić koścmi");
-                scanner.nextLine();
+                if (player.virtualPlayer) {
+                    // gracz wirtualny potwierdza
+                } else {
+                    scanner.nextLine(); //gracz niewirtualny potiwerdza
+                }
                 dices.throwAll();
                 System.out.println(dices.getList());
                 for (int k = 0; k < 2; k++) { //dwukrotnie rzut wybranymi kostkami
-                    throwAgain(player1);
+                    if (player.virtualPlayer) {
+                        //gracz wirtualny wybiera i rzuca
+                    } else {
+                        throwAgain(player);
+                    }
                     System.out.println(dices.getList());
                 }
-                playerAddsPointsToCart(players[j].getCart(), players[j], cartManager);
+                if (player.virtualPlayer) {
+                    //gracz wirtualny dodaje punkty do tabeli wyników
+                } else {
+                    playerAddsPointsToCart(player.getCart(), player, cartManager);
+                }
                 System.out.println("Twoja karta wyników:");
-                System.out.println(players[j].getCart().toString());
+                System.out.println(player.getCart().toString());
                 System.out.println("Naciśnij enter aby kontynuować");
-                scanner.nextLine();
+                if (player.virtualPlayer) {
+                    //gracz wirtualny potwierdza
+                } else {
+                    scanner.nextLine(); // gracz niewirtualny potwierdza
+                }
                 clearScreen();
             }
         }
@@ -53,12 +67,20 @@ public class Main {
         System.out.println();
         System.out.println(">>>>>>>>>>>>>>>>>>>>>> W Y N I K I <<<<<<<<<<<<<<<<<<<<<<<<<");
         System.out.println();
-        for (int l = 0; l < players.length; l++) {
-            System.out.println(">>>>>>>>>>>>>>>>>> " + players[l].getName() + " <<<<<<<<<<<<<<<<<<<<<<<<<");
-            System.out.println("Tabela wyników: " + players[l].getCart().toString());
-            System.out.println(">>>>> Zdobyłeś łącznie punktów: " + cartManager.sumCart(players[l].getCart()) + " <<<<<<<");
+        for (Player player : players) {
+            System.out.println(">>>>>>>>>>>>>>>>>> " + player.getName() + " <<<<<<<<<<<<<<<<<<<<<<<<<");
+            System.out.println("Tabela wyników: " + player.getCart().toString());
+            System.out.println(">>>>> Zdobyłeś łącznie punktów: " + cartManager.sumCart(player.getCart()) + " <<<<<<<");
             System.out.println();
-            resultMap.put(players[l], cartManager.sumCart(players[l].getCart()));
+            resultMap.put(player, cartManager.sumCart(player.getCart()));
+        }
+        System.out.println("--------------------- GRĘ WYGRYWA ---------------------");
+        if (resultMap.get(player1) > resultMap.get(player2)) {
+            System.out.println(" >>>>>>>>>>>>>>>>> " + player1.getName() + " <<<<<<<<<<<<<<<<");
+        } else if (resultMap.get(player1).equals(resultMap.get(player2))) {
+            System.out.println(" >>>>>>>>>>>>>>>>> nikt (remis) <<<<<<<<<<<<<<<<");
+        } else {
+            System.out.println(" >>>>>>>>>>>>>>>>> " + player2.getName() + " <<<<<<<<<<<<<<<<");
         }
 
 
@@ -72,15 +94,12 @@ public class Main {
 
     private static void throwAgain(Player player) {
         System.out.println("Którymi kostkami chcesz rzucić ponownie?");
-        while (true) {
+        do {
             input = scanner.nextLine();
-            if (player.choseDiceAndThrow(input)) {
-                break;
-            }
-        }
+        } while (!player.choseDiceAndThrow(input));
     }
 
-    private static void playerAddsPointsToCart (Cart cart, Player player, CartManager cartManager) {
+    private static void playerAddsPointsToCart(Cart cart, Player player, CartManager cartManager) {
 //        Scanner scanner = new Scanner(System.in);
 
         if (cartManager.dicesCanBeAddedToCart(cart)) {
@@ -98,10 +117,7 @@ public class Main {
                     }
                 }
             } else {
-                while (true) {
-                    if (player.choseFigureToAddPointToCart(input)) {
-                        break;
-                    }
+                while (!player.choseFigureToAddPointToCart(input)) {
                     input = scanner.nextLine();
                 }
             }
@@ -109,36 +125,26 @@ public class Main {
             System.out.println("układ kości nie pasuje do żadnej pozostałej figury w tabeli");
             System.out.println("wybierz figurę do której zostanie wpisane 0");
             showFigures(cart);
-            while (true) {
+            do {
                 input = scanner.nextLine();
-                if (player.addZeroToCart(input)) {
-                    break;
-                }
-            }
+            } while (!player.addZeroToCart(input));
         }
     }
 
-    public static void clearScreen() {
-            try
-            {
-                final String os = System.getProperty("os.name");
+    private static void clearScreen() {
+        try {
+            final String os = System.getProperty("os.name");
 
-                if (os.contains("Windows"))
-                {
-                    Runtime.getRuntime().exec("cls");
-                }
-                else
-                {
-                    Runtime.getRuntime().exec("clear");
-                }
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
             }
-            catch (final Exception e)
-            {
-                //  Handle any exceptions.
+        } catch (final Exception e) {
+            //  Handle any exceptions.
 
         }
     }
-
 
 
 }//class
