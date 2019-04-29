@@ -2,19 +2,13 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Dices {
-    private Dice dice1 = new Dice(1);
-    private Dice dice2 = new Dice(1);
-    private Dice dice3 = new Dice(1);
-    private Dice dice4 = new Dice(1);
-    private Dice dice5 = new Dice(1);
+
     List<Dice> dices = new ArrayList<>();
 
     public Dices() {
-        dices.add(dice1);
-        dices.add(dice2);
-        dices.add(dice3);
-        dices.add(dice4);
-        dices.add(dice5);
+        for (int i = 0; i <= 4; i++) {
+            dices.add(new Dice(1));
+        }
     }
 
     public List<Dice> getList() {
@@ -28,32 +22,13 @@ public class Dices {
         }
     }
 
-    public void throwOneDice(int num) {
+    public boolean throwOneDice(int num) {
         if (num < 1 || num > 5) {
             wrongNumber();
+            return false;
         }
-        switch (num) {
-            case 1: {
-                dice1.throwDice();
-                break;
-            }
-            case 2: {
-                dice2.throwDice();
-                break;
-            }
-            case 3: {
-                dice3.throwDice();
-                break;
-            }
-            case 4: {
-                dice4.throwDice();
-                break;
-            }
-            case 5: {
-                dice5.throwDice();
-                break;
-            }
-        }
+        dices.get(num - 1).throwDice();
+        return true;
     }
 
     public boolean throwChosen(int... chosen) {
@@ -79,7 +54,9 @@ public class Dices {
         }
         //rzucanie
         for (int i = 0; i < chosen.length; i++) {
-            throwOneDice(chosen[i]);
+            if (!throwOneDice(chosen[i])) {
+                return false;
+            }
         }
         return true;
     }

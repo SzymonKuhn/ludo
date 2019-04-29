@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
 public class Main {
+    static Scanner scanner = new Scanner(System.in);
+    static String input;
 
     public static void main(String[] args) {
 
@@ -9,10 +11,9 @@ public class Main {
         Cart cart2 = new Cart();
 
         CartManager cartManager = new CartManager(dices);
-        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         PlayerManager player1 = new PlayerManager(cartManager, cart1, dices);
         PlayerManager player2 = new PlayerManager(cartManager, cart2, dices);
-        String input;
 
         for (int i = 0; i < Figures.values().length; i++) { // pętla równa ilości figur
 
@@ -23,9 +24,8 @@ public class Main {
             System.out.println(dices.getList());
 
             for (int j = 0; j < 2; j++) { //dwukrotnie rzut wybranymi kostkami
-                System.out.println("Którymi kostkami chcesz rzucić ponownie?");
-                input = scanner.nextLine();
-                throwAgain(player1, input);
+
+                throwAgain(player1);
                 System.out.println(dices.getList());
             }
             playerAddsPointsToCart(cart1, player1, cartManager);
@@ -39,9 +39,10 @@ public class Main {
         }
     }
 
-    private static void throwAgain(PlayerManager player, String input) {
+    private static void throwAgain(PlayerManager player) {
         System.out.println("Którymi kostkami chcesz rzucić ponownie?");
         while (true) {
+            input = scanner.nextLine();
             if (player.choseDiceAndThrow(input)) {
                 break;
             }
@@ -49,8 +50,8 @@ public class Main {
     }
 
     private static void playerAddsPointsToCart (Cart cart, PlayerManager player, CartManager cartManager) {
-        Scanner scanner = new Scanner(System.in);
-        String input;
+//        Scanner scanner = new Scanner(System.in);
+
         if (cartManager.dicesCanBeAddedToCart(cart)) {
             System.out.println("do jakiej figury doliczyć punkty?");
             showFigures();
