@@ -1,16 +1,19 @@
-class Player {
-    private CartManager cartManager;
-    private Cart cart;
-    private Dices dices;
-    private String name;
-    boolean virtualPlayer = false;
+import java.util.Scanner;
 
-    Player(String name, CartManager cartManager, Cart cart, Dices dices, boolean virtualPlayer) {
+class Player {
+    CartManager cartManager;
+    Cart cart;
+    Dices dices;
+    private String name;
+    Scanner scanner;
+    private String input;
+
+    Player(String name, CartManager cartManager, Cart cart, Dices dices, Scanner scanner) {
         this.cartManager = cartManager;
         this.cart = cart;
         this.dices = dices;
         this.name = name;
-        this.virtualPlayer = virtualPlayer;
+        this.scanner = scanner;
     }
 
     Cart getCart() {
@@ -21,10 +24,19 @@ class Player {
         return name;
     }
 
-    boolean choseFigureToAddPointToCart(String input) {
+    public void accept() {
+        scanner.nextLine();
+    }
 
+    void throwAgain() {
+        System.out.println("Którymi kostkami chcesz rzucić ponownie?");
+        do {
+            input = scanner.nextLine();
+        } while (!choseDiceAndThrow(input));
+    }
+
+    private boolean choseFigureToAddPointToCart(String input) {
         int num = getNumberOfFigureFromString(input);
-
         for (int i = 0; i < Figures.values().length; i++ ) {
             if (Figures.values()[i].getNumberOfFigure() == num) {
                 Figures figure = Figures.values()[i];
@@ -36,7 +48,7 @@ class Player {
         return false;
     }
 
-    boolean choseDiceAndThrow(String input) {
+    private boolean choseDiceAndThrow(String input) {
         if (input.equals("")) {
             return true;
         }
@@ -53,7 +65,7 @@ class Player {
         return dices.throwChosen(inputArray);
     }
 
-    boolean addZeroToCart(String input) {
+    private boolean addZeroToCart(String input) {
         int num = getNumberOfFigureFromString(input);
 
         for (int i = 0; i < Figures.values().length; i++ ) {
@@ -84,5 +96,39 @@ class Player {
     }
 
 
+    void playerAddsPointsToCart() {
+        if (cartManager.dicesCanBeAddedToCart(cart)) {
+            System.out.println("do jakiej figury doliczyć punkty?");
+            showFigures();
+            System.out.println("Wpisz 0 jeśli nie chcesz dodawać wyniku (trzeba będzie wpisać 0 do wybranej figury w tabeli).");
+            input = scanner.nextLine();
+            if (input.equals("0")) {
+                System.out.println("wybierz figurę do której zostanie wpisane 0");
+                while (true) {
+                    String inputIn = scanner.nextLine();
+                    if (addZeroToCart(inputIn)) {
+                        break;
+                    }
+                }
+            } else {
+                while (!choseFigureToAddPointToCart(input)) {
+                    input = scanner.nextLine();
+                }
+            }
+        } else {
+            System.out.println("układ kości nie pasuje do żadnej pozostałej figury w tabeli");
+            System.out.println("wybierz figurę do której zostanie wpisane 0");
+            showFigures();
+            do {
+                input = scanner.nextLine();
+            } while (!addZeroToCart(input));
+        }
+    }
+
+    private void showFigures() {
+        for (int l = 1; l <= Figures.values().length; l++) {
+            System.out.println("Wpisz " + l + " dla: " + Figures.values()[l - 1].getMyName() + " (obecny wynik: " + cart.getResultCart().get(Figures.values()[l - 1]) + ").");
+        }
+    }
 
 } // class

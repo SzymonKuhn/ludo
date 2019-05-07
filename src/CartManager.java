@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class CartManager {
 
@@ -11,130 +10,17 @@ class CartManager {
 
     boolean checkAndAddResult(Figures figure, Cart cart) {
         if (checkResult(figure)) {
-            switch (figure) {
-                case ONES: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumNumber(1));
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case TWOS: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumNumber(2));
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case THREES: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumNumber(3));
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case FOURS: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumNumber(4));
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case FIVES: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumNumber(5));
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case SIXES: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumNumber(6));
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case THREE_SAME: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumAll());
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case FOUR_SAME: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumAll());
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case FULL: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, 25);
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case STREET_SMALL: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, 30);
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case STREET_BIG: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, 40);
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case GENERAL: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, 50);
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
-                case CHANCE: {
-                    if (cart.getResultCart().get(figure) == null) {
-                        cart.addResult(figure, dices.sumAll());
-                        return true;
-                    } else {
-                        figureOccupied();
-                        return false;
-                    }
-                }
+            if (cart.getResultCart().get(figure) == null) {
+                cart.addResult(figure, calculatePoints(figure));
+                return true;
+            } else {
+                figureOccupied();
+                return false;
             }
         } else {
             wrongDices();
             return false;
         }
-        return false;
     }
 
     boolean dicesCanBeAddedToCart(Cart cart) {
@@ -150,8 +36,7 @@ class CartManager {
     }
 
 
-
-    private boolean checkResult(Figures figure) {
+    boolean checkResult(Figures figure) { // sprawdzenie czy kości odpowiadają układdowi figury
         //przepisanie wartości z kości do listy roboczej
         List<Integer> tempDiceList = new ArrayList<>();
         for (int i = 0; i < dices.getList().size(); i++) {
@@ -246,28 +131,50 @@ class CartManager {
                 }
                 break;
             }
-            case STREET_SMALL: { // błąd, przy ustawieniu np. 1 1 2 3 4 nie spełnia wymogów figury!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                if ((tempDiceList.get(0) == tempDiceList.get(1) - 1) &&
-                        (tempDiceList.get(1) - 1 == tempDiceList.get(2) - 2) &&
-                        (tempDiceList.get(2) - 2 == tempDiceList.get(3) - 3)) {
-                    return true;
+            case STREET_SMALL: {
+                List<Integer> tempStreetList = new ArrayList<>();
+                for (Integer integer : tempDiceList) {
+                    if (tempStreetList.size() == 0) {
+                        tempStreetList.add(integer);
+                    } else {
+                        if (!integer.equals(tempStreetList.get(tempStreetList.size() - 1))) {
+                            tempStreetList.add(integer);
+                        }
+                    }
                 }
-                if ((tempDiceList.get(1) == tempDiceList.get(2) - 1) &&
-                        (tempDiceList.get(2) - 1 == tempDiceList.get(3) - 2) &&
-                        (tempDiceList.get(3) - 2 == tempDiceList.get(4) - 3)) {
-                    return true;
+                if (tempStreetList.size() < 4) {
+                    return false;
                 }
-                break;
+                for (int j = 0; j < tempStreetList.size() - 1; j++) {
+                    if (!tempStreetList.get(j).equals((tempStreetList.get(j + 1) - 1))) {
+                        return false;
+                    }
+                }
+                return true;
             }
-            case STREET_BIG: { // błąd, przy ustawieniu np. 1 1 2 3 4 nie spełnia wymogów figury!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                if ((tempDiceList.get(0) == tempDiceList.get(1) - 1) &&
-                        (tempDiceList.get(1) - 1 == tempDiceList.get(2) - 2) &&
-                        (tempDiceList.get(2) - 2 == tempDiceList.get(3) - 3) &&
-                        (tempDiceList.get(3) - 3 == tempDiceList.get(4) - 4)) {
-                    return true;
+
+            case STREET_BIG: {
+                List<Integer> tempStreetList = new ArrayList<>();
+                for (Integer integer : tempDiceList) {
+                    if (tempStreetList.size() == 0) {
+                        tempStreetList.add(integer);
+                    } else {
+                        if (!integer.equals(tempStreetList.get(tempStreetList.size() - 1))) {
+                            tempStreetList.add(integer);
+                        }
+                    }
                 }
-                break;
+                if (tempStreetList.size() < 5) {
+                    return false;
+                }
+                for (int j = 0; j < tempStreetList.size() - 1; j++) {
+                    if (!tempStreetList.get(j).equals((tempStreetList.get(j + 1) - 1))) {
+                        return false;
+                    }
+                }
+                return true;
             }
+
             case GENERAL: {
                 if ((tempDiceList.get(0).equals(tempDiceList.get(1))) &&
                         (tempDiceList.get(1).equals(tempDiceList.get(2))) &&
@@ -283,7 +190,6 @@ class CartManager {
         }
         return false;
     }
-
 
 
     private void wrongDices() {
@@ -303,6 +209,66 @@ class CartManager {
             }
         }
         return sum;
+    }
+
+
+    int calculatePoints(Figures figure) {
+        int result = 0;
+        switch (figure) {
+            case ONES: {
+                result = dices.sumNumber(1);
+                break;
+            }
+            case TWOS: {
+                result = dices.sumNumber(2);
+                break;
+            }
+            case THREES: {
+                result = dices.sumNumber(3);
+                break;
+            }
+            case FOURS: {
+                result = dices.sumNumber(4);
+                break;
+            }
+            case FIVES: {
+                result = dices.sumNumber(5);
+                break;
+            }
+            case SIXES: {
+                result = dices.sumNumber(6);
+                break;
+            }
+            case THREE_SAME: {
+                result = dices.sumAll();
+                break;
+            }
+            case FOUR_SAME: {
+                result = dices.sumAll();
+                break;
+            }
+            case FULL: {
+                result = 25;
+                break;
+            }
+            case STREET_SMALL: {
+                result = 30;
+                break;
+            }
+            case STREET_BIG: {
+                result = 40;
+                break;
+            }
+            case GENERAL: {
+                result = 50;
+                break;
+            }
+            case CHANCE: {
+                result = dices.sumAll();
+                break;
+            }
+        }
+        return result;
     }
 
 }//class
