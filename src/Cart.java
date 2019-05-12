@@ -17,13 +17,13 @@ public class Cart {
 
     @Override
     public String toString() {
-        String out = "Tabela wyników: ";
+        StringBuilder out = new StringBuilder("Tabela wyników: ");
         for (int i = 0; i < Figures.values().length; i++) {
             Figures figure;
             figure = Figures.values()[i];
-            out = out + ("[" + figure.getMyName() + ": " + resultCart.get(figure) + "] ");
+            out.append("[").append(figure.getMyName()).append(": ").append(resultCart.get(figure)).append("] ");
         }
-        return out;
+        return out.toString();
     }
 
     void addResult(Figures figure, Integer result) {

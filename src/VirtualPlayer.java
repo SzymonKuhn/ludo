@@ -25,7 +25,7 @@ public class VirtualPlayer extends Player {
 //        System.out.println("Mapa możiwości z punktami: " + checkPossibleFiguresToAddAndCalculatePoints().toString());
 //        System.out.println("Mapa procentów maksymalnych punktów: " + getMapOfPercentageOfMaxPoints());
         dices.throwChosen(dicesToThrow);
-//        waiting();
+        waiting();
 //        scanner.nextLine();
     }
 
@@ -47,7 +47,6 @@ public class VirtualPlayer extends Player {
             }
         } else if (mapOfPossibleFiguresToAddAndCaluculatePoints.size() == 1  && mapOfPossibleFiguresToAddAndCaluculatePoints.containsKey(Figures.CHANCE)){ //jeśli jedyną możliwością dodania jest Szansa
             cart.addResult(listOfFiguresCanBeAdded.get(0), mapOfPossibleFiguresToAddAndCaluculatePoints.get(listOfFiguresCanBeAdded.get(0))); //dodaję szansę
-            return;
         } else { //jeśli są wolne miejsca
             for (int i = 11; i > 5; i--) {
                 if (listOfFiguresCanBeAdded.contains(Figures.values()[i])) { //iteruję od Generała do 3 takie same, jeśli mogę dodać to dodaję
@@ -68,19 +67,18 @@ public class VirtualPlayer extends Player {
             }
             System.out.println("Dodaję do karty wyników: " + figure.getMyName());
             cart.addResult(figure, mapOfPossibleFiguresToAddAndCaluculatePoints.get(figure));
-            return;
         }
     }
 
     public void accept() {
         System.out.println("Gracz wirtualny akceptuje");
-//        waiting();
+        waiting();
     }
 
 
     private void waiting() {
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(50);
         } catch (InterruptedException ie) {
             ie.getMessage();
         }

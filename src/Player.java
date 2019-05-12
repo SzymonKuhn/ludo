@@ -5,7 +5,7 @@ class Player {
     Cart cart;
     Dices dices;
     private String name;
-    Scanner scanner;
+    private Scanner scanner;
     private String input;
 
     Player(String name, CartManager cartManager, Cart cart, Dices dices, Scanner scanner) {

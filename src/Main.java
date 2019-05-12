@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
-    private static String input;
 
     public static void main(String[] args) {
 
@@ -12,10 +11,18 @@ public class Main {
         CartManager cartManager = new CartManager(dices);
         Cart player1cart = new Cart();
         Cart player2cart = new Cart();
-        Player player1 = new Player("Gracz 1", cartManager, player1cart, dices, scanner);
-//        VirtualPlayer player1 = new VirtualPlayer("Gracz 1", cartManager, player1cart, dices, scanner);
+        Cart player3cart = new Cart();
+        Cart player4cart = new Cart();
+        Cart player5cart = new Cart();
+        Cart player6cart = new Cart();
+//        Player player1 = new Player("Gracz 1", cartManager, player1cart, dices, scanner);
+        VirtualPlayer player1 = new VirtualPlayer("Gracz 1", cartManager, player1cart, dices, scanner);
         VirtualPlayer player2 = new VirtualPlayer("Gracz 2", cartManager, player2cart, dices, scanner);
-        Player[] players = new Player[]{player1, player2};
+        VirtualPlayer player3 = new VirtualPlayer("Gracz 3", cartManager, player3cart, dices, scanner);
+        VirtualPlayer player4 = new VirtualPlayer("Gracz 4", cartManager, player4cart, dices, scanner);
+        VirtualPlayer player5 = new VirtualPlayer("Gracz 5", cartManager, player5cart, dices, scanner);
+        VirtualPlayer player6 = new VirtualPlayer("Gracz 6", cartManager, player6cart, dices, scanner);
+        Player[] players = new Player[]{player1, player2, player3, player4, player5, player6};
 
         for (int i = 0; i < Figures.values().length; i++) { // pętla równa ilości figur
 //            for (int i = 0; i < 1; i++) { // tymczasowo mniejsza ilość tur

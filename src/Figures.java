@@ -17,7 +17,6 @@ public enum Figures {
     private String description;
     private String points;
     private int numberOfFigure;
-    private int value;
     private int maxPoints;
 
 
@@ -27,7 +26,7 @@ public enum Figures {
         this.points = points;
         this.maxPoints = maxPoints;
         this.numberOfFigure = numberOfFigure;
-        this.value = value;
+        int value1 = value;
     }
 
     public String getMyName() {
