@@ -1,21 +1,25 @@
+package model;
+
+import model.Dice;
+
 import java.util.ArrayList;
 import java.util.*;
 
-class Dices {
+public class Dices {
 
     private List<Dice> dices = new ArrayList<>();
 
-    Dices() {
+    public Dices() {
         for (int i = 0; i <= 4; i++) {
             dices.add(new Dice(1));
         }
     }
 
-    List<Dice> getList() {
+    public List<Dice> getList() {
         return dices;
     }
 
-    void throwAll() {
+    public void throwAll() {
         for (Dice dice : dices) {
             dice.throwDice();
         }
@@ -30,7 +34,7 @@ class Dices {
         return true;
     }
 
-    boolean throwChosen(int... chosen) {
+    public boolean throwChosen(int... chosen) {
         // sprawdzenie czy wybrano kostkę
         if (chosen.length <= 0) {
             noDices();
@@ -60,7 +64,7 @@ class Dices {
         return true;
     }
 
-    Integer sumAll() {
+    public Integer sumAll() {
         int sum = 0;
         for (Dice dice : dices) {
             sum = sum + dice.getValue();
@@ -68,7 +72,7 @@ class Dices {
         return sum;
     }
 
-    Integer sumNumber(Integer num) {
+    public Integer sumNumber(Integer num) {
         int result = 0;
         for (Dice dice : dices) {
             if (dice.getValue() == num) {

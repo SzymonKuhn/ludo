@@ -1,3 +1,10 @@
+import model.Cart;
+import model.Dices;
+import model.Figures;
+import model.Player;
+import service.CartManager;
+import model.VirtualPlayer;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,12 +23,12 @@ public class Main {
         Cart player5cart = new Cart();
         Cart player6cart = new Cart();
         Player player1 = new Player("Gracz 1", cartManager, player1cart, dices, scanner);
-//        VirtualPlayer player1 = new VirtualPlayer("Gracz 1", cartManager, player1cart, dices, scanner);
+//        model.VirtualPlayer player1 = new model.VirtualPlayer("Gracz 1", cartManager, player1cart, dices, scanner);
         VirtualPlayer player2 = new VirtualPlayer("Gracz 2", cartManager, player2cart, dices, scanner);
-//        VirtualPlayer player3 = new VirtualPlayer("Gracz 3", cartManager, player3cart, dices, scanner);
-//        VirtualPlayer player4 = new VirtualPlayer("Gracz 4", cartManager, player4cart, dices, scanner);
-//        VirtualPlayer player5 = new VirtualPlayer("Gracz 5", cartManager, player5cart, dices, scanner);
-//        VirtualPlayer player6 = new VirtualPlayer("Gracz 6", cartManager, player6cart, dices, scanner);
+//        model.VirtualPlayer player3 = new model.VirtualPlayer("Gracz 3", cartManager, player3cart, dices, scanner);
+//        model.VirtualPlayer player4 = new model.VirtualPlayer("Gracz 4", cartManager, player4cart, dices, scanner);
+//        model.VirtualPlayer player5 = new model.VirtualPlayer("Gracz 5", cartManager, player5cart, dices, scanner);
+//        model.VirtualPlayer player6 = new model.VirtualPlayer("Gracz 6", cartManager, player6cart, dices, scanner);
         Player[] players = new Player[]{player1, player2};
 
         for (int i = 0; i < Figures.values().length; i++) { // pętla równa ilości figur

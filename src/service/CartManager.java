@@ -1,14 +1,20 @@
+package service;
+
+import model.Cart;
+import model.Dices;
+import model.Figures;
+
 import java.util.*;
 
-class CartManager {
+public class CartManager {
 
     private Dices dices;
 
-    CartManager(Dices dices) {
+    public CartManager(Dices dices) {
         this.dices = dices;
     }
 
-    boolean checkAndAddResult(Figures figure, Cart cart) {
+    public boolean checkAndAddResult(Figures figure, Cart cart) {
         if (checkResult(figure)) {
             if (cart.getResultCart().get(figure) == null) {
                 cart.addResult(figure, calculatePoints(figure));
@@ -23,7 +29,7 @@ class CartManager {
         }
     }
 
-    boolean dicesCanBeAddedToCart(Cart cart) {
+    public boolean dicesCanBeAddedToCart(Cart cart) {
         //sprawdzenie czy układ kości może być wpisany do jakiejkolwiek rubryki tabeli wyników
         for (Figures figure : Figures.values()) {
             if (cart.getResultCart().get(figure) == null) {
@@ -36,7 +42,7 @@ class CartManager {
     }
 
 
-    boolean checkResult(Figures figure) { // sprawdzenie czy kości odpowiadają układdowi figury
+    public boolean checkResult(Figures figure) { // sprawdzenie czy kości odpowiadają układdowi figury
         //przepisanie wartości z kości do listy roboczej
         List<Integer> tempDiceList = new ArrayList<>();
         for (int i = 0; i < dices.getList().size(); i++) {
@@ -200,7 +206,7 @@ class CartManager {
         System.out.println("Wybrana figura już jest zajęta");
     }
 
-    int sumCart(Cart cart) {
+    public int sumCart(Cart cart) {
         int sum = 0;
         for (int i = 0; i < Figures.values().length; i++) {
             Figures figure = Figures.values()[i];
@@ -212,7 +218,7 @@ class CartManager {
     }
 
 
-    int calculatePoints(Figures figure) {
+    public int calculatePoints(Figures figure) {
         int result = 0;
         switch (figure) {
             case ONES: {

@@ -1,14 +1,22 @@
+package model;
+
+import exceptions.WrongNumberException;
+import model.Cart;
+import model.Dices;
+import model.Figures;
+import service.CartManager;
+
 import java.util.Scanner;
 
-class Player {
-    CartManager cartManager;
-    Cart cart;
-    Dices dices;
+public class Player {
+    protected CartManager cartManager;
+    protected Cart cart;
+    protected Dices dices;
     private String name;
     private Scanner scanner;
     private String input;
 
-    Player(String name, CartManager cartManager, Cart cart, Dices dices, Scanner scanner) {
+    public Player(String name, CartManager cartManager, Cart cart, Dices dices, Scanner scanner) {
         this.cartManager = cartManager;
         this.cart = cart;
         this.dices = dices;
@@ -16,11 +24,11 @@ class Player {
         this.scanner = scanner;
     }
 
-    Cart getCart() {
+    public Cart getCart() {
         return cart;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
@@ -28,7 +36,7 @@ class Player {
         scanner.nextLine();
     }
 
-    void throwAgain() {
+    public void throwAgain() {
         System.out.println("Którymi kostkami chcesz rzucić ponownie?");
         do {
             input = scanner.nextLine();
@@ -96,7 +104,7 @@ class Player {
     }
 
 
-    void playerAddsPointsToCart() {
+    public void playerAddsPointsToCart() {
         if (cartManager.dicesCanBeAddedToCart(cart)) {
             System.out.println("do jakiej figury doliczyć punkty?");
             showFigures();

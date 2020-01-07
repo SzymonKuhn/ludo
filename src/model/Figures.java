@@ -1,3 +1,5 @@
+package model;
+
 public enum Figures {
     ONES ("jedynki", "suma wyrzuconych jedynek", "suma wyrzuconych jedynek", 5,1, 1), //0
     TWOS ("dwójki", "suma wyrzuconych dwójek", "suma wyrzuconych dwójek", 10,2, 2), //1

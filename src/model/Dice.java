@@ -1,18 +1,20 @@
+package model;
+
 import java.util.Random;
 
 public class Dice {
     private int value;
     private Random random = new Random();
 
-    Dice(int value) {
+    public Dice(int value) {
         this.value = value;
     }
 
-    int getValue() {
+    public int getValue() {
         return value;
     }
 
-    void throwDice() {
+    public void throwDice() {
         this.value = random.nextInt(6) + 1;
     }
 

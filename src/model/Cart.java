@@ -1,17 +1,19 @@
+package model;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Cart {
     private Map<Figures, Integer> resultCart;
 
-    Cart() {
+    public Cart() {
         resultCart = new HashMap<>();
         for (int i = 0; i < Figures.values().length; i ++) {
             resultCart.put(Figures.values()[i], null);
         }
     }
 
-    Map<Figures, Integer> getResultCart() {
+    public Map<Figures, Integer> getResultCart() {
         return resultCart;
     }
 
@@ -26,7 +28,7 @@ public class Cart {
         return out.toString();
     }
 
-    void addResult(Figures figure, Integer result) {
+    public void addResult(Figures figure, Integer result) {
         resultCart.put(figure, result);
     }
 }

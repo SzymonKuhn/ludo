@@ -1,16 +1,24 @@
+package model;
+
+import model.Cart;
+import model.Dices;
+import model.Figures;
+import model.Player;
+import service.CartManager;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class VirtualPlayer extends Player {
 
 
-    VirtualPlayer(String name, CartManager cartManager, Cart cart, Dices dices, Scanner scanner) {
+    public VirtualPlayer(String name, CartManager cartManager, Cart cart, Dices dices, Scanner scanner) {
         super(name, cartManager, cart, dices, scanner);
     }
 
 
     @Override
-    void throwAgain() {
+    public void throwAgain() {
 
         System.out.println("Gracz wirtualny rzuca ponownie");
 //        System.out.println("Mapa powtarzalnych kości");
@@ -31,7 +39,7 @@ public class VirtualPlayer extends Player {
 
 
     @Override
-    void playerAddsPointsToCart() {
+    public void playerAddsPointsToCart() {
         System.out.println("Gracz wirtualny dodaje punkty do tabeli");
         Map<Figures, Integer> mapOfPossibleFiguresToAddAndCaluculatePoints = checkPossibleFiguresToAddAndCalculatePoints();
         Map<Figures, Double> getMapOfPercentageOfMaxPoints = getMapOfPercentageOfMaxPoints();
